@@ -1,19 +1,19 @@
-# ETL Bancario SQL  
-📌 **Descripción:** ETL bancario con SQL Server, AS400 y procesamiento de datos.  
+# 📄 Documentación del Proyecto ETL-Bancario-SQL
 
-🛠 **Tecnologías utilizadas:**  
+## 📌 Descripción  
+ETL bancario con SQL Server, AS400 y procesamiento de datos.
+
+## 🛠 Tecnologías utilizadas  
 - Python  
 - PowerShell  
 - SQL Server  
 - Azure  
 - Power BI  
 
-📂 **Estructura del Proyecto:**  
-- `/src/` → Código fuente  
-- `/docs/` → Documentación  
-- `/tests/` → Pruebas unitarias  
-
-📩 **¿Necesitas personalizar este proyecto? Contáctame en [LinkedIn](https://www.linkedin.com/in/tu-perfil)**  
+## 🚀 Cómo ejecutar  
+1️⃣ Clona este repositorio  
+2️⃣ Ejecuta los scripts en `/src/` según sea necesario  
+3️⃣ Consulta la documentación adicional en esta carpeta  
 
 
 # 📂 docs/README.md - Documentación del Proyecto
@@ -88,40 +88,3 @@ El proyecto incluye pruebas SQL para validar la integridad de los datos.
 ## 📬 Contacto
 Para consultas o sugerencias, contáctame en [emmanuel.cmora20@gmail.com](mailto:emmanuel.cmora20@gmail.com).
 """
-
-# 📂 src/sql_queries.sql - Scripts SQL para procesamiento de datos
-```sql
--- Obtiene el último día del mes anterior y la fecha de proceso actual
-DECLARE @UltimoDiaMesAnterior DATE = EOMONTH(DATEADD(MONTH, -1, GETDATE()));
-DECLARE @FechaProceso DATE = GETDATE();
-
--- Consulta de datos bancarios desde AS400
-SELECT * FROM OPENQUERY(AS400DB, 'SELECT * FROM TRANSACCIONES WHERE FECHA >= ''2024-01-01''');
-
--- Carga de datos transformados en SQL Server
-INSERT INTO dbo.TransaccionesProcesadas (Cuenta, Monto, Fecha, Estado)
-SELECT Cuenta, Monto, @FechaProceso, 'Procesado'
-FROM TEMP_Transacciones
-WHERE Fecha = @UltimoDiaMesAnterior;
-```
-
-# 📂 src/send_email.ps1 - Envío de correos según estado del ETL
-```powershell
-$SMTPServer = "smtp.banco.com"
-$From = "notificaciones@banco.com"
-$To = "auditoria@banco.com"
-$Subject = "Estado del ETL Bancario"
-$Body = "El proceso ETL ha finalizado. Revise los resultados."
-Send-MailMessage -To $To -From $From -Subject $Subject -Body $Body -SmtpServer $SMTPServer
-```
-
-# 📂 tests/test_sql_queries.sql - Pruebas de validación de datos
-```sql
--- Verifica que la tabla de transacciones procesadas tiene datos
-SELECT COUNT(*) AS TotalRegistros FROM dbo.TransaccionesProcesadas;
-
--- Comprueba si hay registros con fechas incorrectas
-SELECT * FROM dbo.TransaccionesProcesadas WHERE Fecha > GETDATE();
-```
-
-🚀 **El proyecto está completo con código funcional en SQL, PowerShell y SSIS. Listo para ser integrado en tu portafolio!** Si deseas ajustes o agregar funcionalidades, dime y lo implementamos. 😊
